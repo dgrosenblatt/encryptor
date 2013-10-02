@@ -32,7 +32,22 @@ class Encryptor
 		puts "Wrote \'#{encrypted_text}\' to new file #{new_name}"
 	end
 
-	def decrypt_file
-		#
+	def decrypt_file(file_name, rotation)
+		message = File.open(file_name, "r")
+		text = message.read
+		decrypted_text = decrypt(text, rotation)
+		new_name = "decrypted_#{file_name}"
+		decrypted_file = File.open(new_name, "w")
+		decrypted_file.write(decrypted_text)
+		decrypted_file.close
+		puts "Wrote \'#{decrypted_text}\' to new file #{new_name}"
+	end
+
+	def crack_encryption(word)
+		puts "Printing all rotations for #{word}"
+		(' '..'z').to_a.size.times do |guess|
+			potential = decrypt(word, guess)
+			puts "Rotated by #{guess}:  #{potential}"
+		end
 	end
 end
